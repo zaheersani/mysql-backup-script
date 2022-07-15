@@ -65,9 +65,9 @@ EXIT /B 0
 :: Set Backup File Extension
 SET EXTENSION=.sql
 :: Set Default Source DB Name
-SET DBNAME=epi
+::SET DBNAME=epi
 :: Take User Input for DB Name, if different than epi
-SET /P DBNAME=Enter Database Name (Default DB name is epi):
+SET /P DBNAME=Enter Database Name:
 :: Set Output File Name in format: epi_YYYYMMDD.sql
 SET DBOUTPUTNAME=%DBNAME%_%currentDate%%EXTENSION%
 :: Backup Database by Executing mysqldump.exe with root user with no password
@@ -76,7 +76,7 @@ CMD /c %CURRENTPATH% %DBNAME% > %DBOUTPUTNAME% -u root --verbose
 :: Exit Function
 EXIT /B 0
 
-:: END Function
+:: END Script Function
 :END
 ECHO.
 ECHO.
