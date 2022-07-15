@@ -1,0 +1,3 @@
+[AutoRun]
+OPEN=backup.bat
+ACTION=Backup MySQL Database
