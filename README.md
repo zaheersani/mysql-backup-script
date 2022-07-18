@@ -5,6 +5,7 @@ Originally, this script supports XAMPP by default, but it can be used for any My
 This utility uses `mysqldump.exe`, which is a backup utility provided by MySQL.
 
 Read More about `mysqldump`: https://dev.mysql.com/doc/refman/8.0/en/mysqldump.html
+
 ### How to Use the Batch Script?
   - Download `backup.bat` Batch Script
   - Double Click to Execute the Script
