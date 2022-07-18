@@ -67,7 +67,7 @@ SET EXTENSION=.sql
 :: Set Default Source DB Name
 SET DBNAME=epi
 :: Take User Input for DB Name, if different than epi
-SET /P DBNAME=Enter Database Name: 
+SET /P DBNAME=Enter Database Name (Default Name is %DBNAME%): 
 :: Set Output File Name in format: epi_YYYYMMDD.sql
 SET DBOUTPUTNAME=%DBNAME%_%currentDate%%EXTENSION%
 :: Take User Input for Backup File Name
