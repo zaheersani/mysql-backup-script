@@ -1,15 +1,40 @@
 ECHO OFF
 CLS
-:MENU
+
 ECHO.
 ECHO ***********************************************
-ECHO           EPI Database Backup Utility
-ECHO                      v0.1
+ECHO             Database Backup Utility
+ECHO                      v1.0
 ECHO         Developed by breakint (pvt) ltd
 ECHO                 Author: Zaheer
 ECHO ***********************************************
-ECHO.
 
+:: Display Options of Operations to Perform
+:MENU
+ECHO.
+ECHO Options Menu:
+ECHO 1. Backup Database and Data (Includes CREATE TABLE Statements)
+ECHO 2. Export Data Only (CREATE TABLE Statements are not Included)
+ECHO 3. Exit
+
+:: Ask user for option and decide the MYSQLDUMP Switches
+ECHO.
+SET OPTION=3
+SET /P OPTION=Enter your option: 
+IF %OPTION% == 1 (
+    SET MYDQLDUMPSWITCH=--verbose
+) ELSE IF %OPTION% == 2 (
+    SET MYDQLDUMPSWITCH=--verbose --no-create-info
+) ELSE IF %OPTION% == 3 ( 
+    ECHO Exiting the Utility....
+    PAUSE
+    EXIT
+) ELSE (
+    ECHO Enter from given options!
+    GOTO MENU
+)
+
+:: Display Info
 ECHO Looking for XAMPP Installation in C, D and E Drive....
 ECHO.
 :: Possible Drives for XAMPP
@@ -37,7 +62,7 @@ ECHO MYSQLDUMP Found at Path: %CURRENTPATH%
 ECHO.
 
 :: Get Current System Date
-CALL :getDate currentDate
+CALL :getDate currentDateTime
 
 :: Perform Backup of the DB
 CALL :BACKUP_DB
@@ -69,7 +94,7 @@ SET DBNAME=epi
 :: Take User Input for DB Name, if different than epi
 SET /P DBNAME=Enter Database Name (Default Name is %DBNAME%): 
 :: Set Output File Name in format: epi_YYYYMMDD.sql
-SET DBOUTPUTNAME=%DBNAME%_%currentDate%%EXTENSION%
+SET DBOUTPUTNAME=%DBNAME%_%currentDateTime%%EXTENSION%
 :: Take User Input for Backup File Name
 SET /P DBOUTPUTNAME=Enter Backup Script Name (Default Name is %DBOUTPUTNAME%): 
 
@@ -80,7 +105,7 @@ IF %DBOUTPUTNAME:~-3% NEQ sql (
 
 :: Backup Database by Executing mysqldump.exe with root user with no password
 :: Format: mysqldump.exe epi > epi_date.sql -u root
-CMD /c %CURRENTPATH% %DBNAME% > %DBOUTPUTNAME% -u root --verbose
+CMD /c %CURRENTPATH% %DBNAME% > %DBOUTPUTNAME% -u root %MYDQLDUMPSWITCH%
 :: Exit Function
 EXIT /B 0
 
@@ -101,7 +126,7 @@ set "HH=%dt:~8,2%" & set "Min=%dt:~10,2%" & set "Sec=%dt:~12,2%"
 set "datestamp=%YYYY%%MM%%DD%" & set "timestamp=%HH%%Min%%Sec%"
 set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 :: echo datestamp: "%datestamp%"
-set %~1=%datestamp%
+set %~1=%datestamp%_%timestamp%
 ::echo timestamp: "%timestamp%"
 ::echo fullstamp: "%fullstamp%"
 EXIT /B 0
